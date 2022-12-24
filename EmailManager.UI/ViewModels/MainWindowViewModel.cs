@@ -11,6 +11,8 @@ namespace EmailManager.UI.ViewModels
     {
         private BindableBase _currentViewModel;
 
+        
+
         public BindableBase CurrentViewModel
         {
             get { return _currentViewModel; }
@@ -20,7 +22,7 @@ namespace EmailManager.UI.ViewModels
 
         public MainWindowViewModel()
         {
-            
+            _currentViewModel = new LoginViewModel();
         }
     }
 }
