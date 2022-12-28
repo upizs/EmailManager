@@ -1,5 +1,6 @@
 ﻿using EmailManager.Operations;
 using EmailManager.UI.Base;
+using System;
 using System.Windows.Controls;
 
 namespace EmailManager.UI.ViewModels
@@ -58,6 +59,8 @@ namespace EmailManager.UI.ViewModels
 
         public RelayCommand<PasswordBox> LoginCommand { get; private set; }
 
+        public event Action<EmailOperations> EmailDetailsRequested = delegate { };
+
         public LoginViewModel()
         {
             LoginCommand = new RelayCommand<PasswordBox>(OnLogin,CanLogin);
@@ -78,7 +81,7 @@ namespace EmailManager.UI.ViewModels
             Error = error;
             if (_loginSuccess)
             {
-                //continue to new View
+                EmailDetailsRequested(emailOperations);
             }
         }
 

@@ -1,16 +1,13 @@
-﻿using EmailManager.UI.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EmailManager.Operations;
+using EmailManager.UI.Base;
 
 namespace EmailManager.UI.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
         private BindableBase _currentViewModel;
-
+        private EmailDetailsViewModel _emailDetailsViewModel;
+        private LoginViewModel _loginView = new LoginViewModel();
         
 
         public BindableBase CurrentViewModel
@@ -22,7 +19,14 @@ namespace EmailManager.UI.ViewModels
 
         public MainWindowViewModel()
         {
-            _currentViewModel = new LoginViewModel();
+            _currentViewModel = _loginView;
+            _loginView.EmailDetailsRequested += NavToEmailDetails;
+        }
+
+        private void NavToEmailDetails(EmailOperations emailOperations)
+        {
+            _emailDetailsViewModel = new EmailDetailsViewModel(emailOperations);
+            CurrentViewModel = _emailDetailsViewModel;
         }
     }
 }

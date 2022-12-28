@@ -1,7 +1,7 @@
 ﻿
 namespace EmailManager.Operations.Models
 {
-    public class EmailContact
+    public class EmailContact 
     {
         public string EmailAddress { get; set;}
         public string UnsubscribeLink { get; set;}

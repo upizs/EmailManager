@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="EmailManager.UI.Views.EmailDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EmailManager.UI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Enter number of contacts to load"/>
+            <TextBox Text="{Binding NumberOfContacts, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button Content="Load Contacts"
+                    Command="{Binding LoadEmailDetailsCommand}"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left" />
+        </StackPanel>
+        
+        <DataGrid ItemsSource="{Binding EmailContacts}" Grid.Row="1"
+                  AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Email" Binding="{Binding EmailAddress}" Width="*"/>
+                <DataGridHyperlinkColumn Header="Unsubscribe Link" Binding="{Binding UnsubscribeLink}" 
+                                         Width="*">
+                    <DataGridHyperlinkColumn.ElementStyle>
+                        <Style>
+                            <EventSetter Event="Hyperlink.Click" Handler="Hyperlink_Click"/>
+                        </Style>
+                    </DataGridHyperlinkColumn.ElementStyle>
+                </DataGridHyperlinkColumn>
+                    <DataGridCheckBoxColumn Header="Delete all Emails?" Binding="{Binding DeleteAllEmails}"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+    </Grid>
+</UserControl>

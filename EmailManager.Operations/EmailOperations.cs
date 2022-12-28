@@ -2,6 +2,7 @@
 using EmailManager;
 using EmailManager.Operations.Models;
 using System;
+using System.ComponentModel;
 using System.Text;
 
 namespace EmailManager.Operations
@@ -39,8 +40,10 @@ namespace EmailManager.Operations
             return success;
         }
 
-        public List<EmailContact> GetAllEmailDetails()
+        public async Task<List<EmailContact>> GetAllEmailDetails(int numberOfContacts)
         {
+            MailClient _mailClient = new MailClient("TryIt");
+            _mailClient.Connect(_mailServer);
             MailInfo[] infos = _mailClient.GetMailInfos();
             for (int i = infos.Length - 1; i >= 0; i--)
             {
@@ -86,20 +89,28 @@ namespace EmailManager.Operations
                 {
                     _contactsWithDetails.Add(emailContact);
                 }
-
+                if (_contactsWithDetails.Count >= numberOfContacts) { break; }
             }
             return _contactsWithDetails;
         }
 
         static string GetUnsubscribeLink(string body)
         {
+            //out of index exception happens here
             string unsubscribeLink = string.Empty;
-            var index = body.IndexOf("Unsubscribe");
-            var partBeforeUnsubscribe = body.Substring(0, index);
-            index = partBeforeUnsubscribe.LastIndexOf("<a");
-            unsubscribeLink = body.Substring(index);
-            unsubscribeLink = CleanLink(unsubscribeLink);
-
+            try
+            {
+                var index = body.IndexOf("Unsubscribe");
+                var partBeforeUnsubscribe = body.Substring(0, index);
+                index = partBeforeUnsubscribe.LastIndexOf("<a");
+                unsubscribeLink = body.Substring(index);
+                unsubscribeLink = CleanLink(unsubscribeLink);
+            }
+            catch (Exception ex) 
+            {
+                //log exception here
+            }
+            
             return unsubscribeLink;
         }
 
