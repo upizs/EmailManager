@@ -62,8 +62,7 @@
                                FontWeight="Medium"
                                FontFamily="Montserrat"                             
                                Margin="0,15,0,0"/>
-
-        <!--Turned out that using PasswordBox is complicated. Will return later-->
+           
         <PasswordBox        x:Name="passwordBox"
                              FontSize="13"
                              FontWeight="Medium"

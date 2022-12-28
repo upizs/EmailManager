@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="EAGetMail" Version="5.3.0.2" />
+  </ItemGroup>
+
 </Project>
