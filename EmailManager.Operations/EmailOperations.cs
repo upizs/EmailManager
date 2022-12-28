@@ -12,8 +12,10 @@ namespace EmailManager.Operations
         private MailClient? _mailClient;
         private List<EmailContact> _contactsWithDetails = new List<EmailContact>();
 
-        public bool Login(string email, string password)
+        public bool Login(string email, string password, out string error)
         {
+            var success = false;
+            error = string.Empty;
             _mailServer = new MailServer("imap.gmail.com",
                         email,
                         password,
@@ -24,9 +26,17 @@ namespace EmailManager.Operations
             // Set 993 SSL port
             _mailServer.Port = 993;
             MailClient _mailClient = new MailClient("TryIt");
-            _mailClient.Connect(_mailServer);
+            try
+            {
+                _mailClient.Connect(_mailServer);
+                success = _mailClient.Connected;
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
 
-            return _mailClient.Connected;
+            return success;
         }
 
         public List<EmailContact> GetAllEmailDetails()

@@ -1,4 +1,5 @@
-﻿using EmailManager.UI.Base;
+﻿using EmailManager.Operations;
+using EmailManager.UI.Base;
 using System.Windows.Controls;
 
 namespace EmailManager.UI.ViewModels
@@ -8,6 +9,8 @@ namespace EmailManager.UI.ViewModels
         private string _email;
         private string _password;
         private bool _loginSuccess;
+        private string _error;
+        private string _loginInstructions = "login here";
 
         public string Email
         {
@@ -38,6 +41,21 @@ namespace EmailManager.UI.ViewModels
             }
         }
 
+        public string LoginInstructions
+        {
+            get { return _loginInstructions; }
+            set
+            {
+                SetProperty(ref _loginInstructions, value);
+            }
+        }
+
+        public string Error 
+        { 
+            get { return _error; } 
+            set { SetProperty(ref _error, value);}
+        }
+
         public RelayCommand<PasswordBox> LoginCommand { get; private set; }
 
         public LoginViewModel()
@@ -54,13 +72,22 @@ namespace EmailManager.UI.ViewModels
 
         public void OnLogin(PasswordBox passwordBox)
         {
-            //Execute EmailOperations.Login(email,password);
-            //set LoginSuccess
+            string error  = string.Empty;
+            var emailOperations = new EmailOperations();
+            _loginSuccess = emailOperations.Login(_email,passwordBox.Password, out error);
+            Error = error;
+            if (_loginSuccess)
+            {
+                //continue to new View
+            }
         }
+
         //if either email or password is empthy dont allow to login
         public bool CanLogin(PasswordBox passwordBox)
         {
-            return !string.IsNullOrEmpty(_email) && !string.IsNullOrEmpty(passwordBox.Password);
+            return !string.IsNullOrEmpty(_email) 
+                //&& !string.IsNullOrEmpty(passwordBox.Password)
+                ;
         }
 
 

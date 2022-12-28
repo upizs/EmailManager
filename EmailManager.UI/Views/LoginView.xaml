@@ -19,7 +19,7 @@
                                FontFamily="Montserrat"
                                HorizontalAlignment="Center"/>
         <!--Login instructions-->
-        <TextBlock Text="{Binding}"
+        <TextBlock Text="{Binding LoginInstructions}"
                                Foreground="LightGray"
                                FontSize="12"
                                FontWeight="Medium"
@@ -28,7 +28,7 @@
                                TextAlignment="Center"
                                Margin="0,5,0,0"/>
         <!--Error message-->
-        <TextBlock Text="{Binding}"
+        <TextBlock Text="{Binding Error}"
                                Foreground="LightGray"
                                FontSize="12"
                                FontWeight="Medium"
